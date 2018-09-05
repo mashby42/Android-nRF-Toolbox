@@ -57,6 +57,20 @@ public class Command {
 		}
 	}
 
+	public int devType;
+
+	public enum DeviceType
+	{
+		reader(0),
+		host(1),
+		modem(2),
+		reserved(3);
+
+		public final int index;
+
+		DeviceType(final int index) { this.index = index; }
+	}
+
 	public enum Eol {
 		LF(0),
 		CR(1),
@@ -74,6 +88,9 @@ public class Command {
 
 	@Attribute(required = false)
 	private boolean active = false;
+
+	@Attribute(required = false)
+	private DeviceType deviceType = DeviceType.reader;
 
 	@Attribute(required = false)
 	private Eol eol = Eol.LF;
@@ -96,6 +113,12 @@ public class Command {
 	public void setActive(final boolean active) {
 		this.active = active;
 	}
+
+	/**
+	 * Sets the device type.
+	 * @param dev device type
+	 */
+	public void setDeviceType(final int dev) { this.deviceType = DeviceType.values()[dev]; }
 
 	/**
 	 * Sets the new line type.
@@ -130,12 +153,19 @@ public class Command {
 	}
 
 	/**
+	 * Returns the device type.
+	 * @return device type
+	 */
+	public DeviceType getDeviceType()
+	{
+		return deviceType;
+	}
+
+	/**
 	 * Returns the new line type.
 	 * @return end of line terminator
 	 */
-	public Eol getEol() {
-		return eol;
-	}
+	public Eol getEol() { return eol; }
 
 	/**
 	 * Returns the icon index.

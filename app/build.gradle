@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "no.nordicsemi.android.nrftoolbox"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 66
         versionName "2.6.0"

@@ -304,13 +304,18 @@ public class UARTActivity extends BleProfileServiceReadyActivity<UARTService.UAR
 		return null; // not used
 	}
 
-	@Override
-	public void send(final String text) {
-		if (mServiceBinder != null)
-			mServiceBinder.send(text);
-	}
+    public void send(final byte [] bytes) {
+        if (mServiceBinder != null)
+            mServiceBinder.send(bytes);
+    }
 
-	public void setEditMode(final boolean editMode) {
+    @Override
+    public void send(final String text) {
+        if (mServiceBinder != null)
+            mServiceBinder.send(text);
+    }
+
+    public void setEditMode(final boolean editMode) {
 		setEditMode(editMode, true);
 		invalidateOptionsMenu();
 	}
@@ -541,11 +546,12 @@ public class UARTActivity extends BleProfileServiceReadyActivity<UARTService.UAR
 		}
 	}
 
-	public void onCommandChanged(final int index, final String message, final boolean active, final int eol, final int iconIndex) {
+	public void onCommandChanged(final int index, final String message, final boolean active, final int eol, final int dev, final int iconIndex) {
 		final Command command = mConfiguration.getCommands()[index];
 
 		command.setCommand(message);
 		command.setActive(active);
+		command.setDeviceType(dev);
 		command.setEol(eol);
 		command.setIconIndex(iconIndex);
 		mConfigurationListener.onConfigurationModified();

@@ -47,9 +47,11 @@ public class UARTManager extends BleManager<UARTManagerCallbacks> {
 	/** The maximum packet size is 20 bytes. */
 	private static final int MAX_PACKET_SIZE = 20;
 
+	private BluetoothGatt mGatt;
 	private BluetoothGattCharacteristic mRXCharacteristic, mTXCharacteristic;
 	private byte[] mOutgoingBuffer;
 	private int mBufferOffset;
+	private int supportedMTU = MAX_PACKET_SIZE;
 
 	public UARTManager(final Context context) {
 		super(context);
@@ -75,6 +77,7 @@ public class UARTManager extends BleManager<UARTManagerCallbacks> {
 		@Override
 		public boolean isRequiredServiceSupported(final BluetoothGatt gatt) {
 			final BluetoothGattService service = gatt.getService(UART_SERVICE_UUID);
+			mGatt = gatt;
 			if (service != null) {
 				mRXCharacteristic = service.getCharacteristic(UART_RX_CHARACTERISTIC_UUID);
 				mTXCharacteristic = service.getCharacteristic(UART_TX_CHARACTERISTIC_UUID);
@@ -105,6 +108,8 @@ public class UARTManager extends BleManager<UARTManagerCallbacks> {
 		@Override
 		public void onCharacteristicWrite(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
 			// When the whole buffer has been sent
+			if (mOutgoingBuffer == null)
+				return;
 			final byte[] buffer = mOutgoingBuffer;
 			if (mBufferOffset == buffer.length) {
 				try {
@@ -128,12 +133,54 @@ public class UARTManager extends BleManager<UARTManagerCallbacks> {
 			Logger.a(mLogSession, "\"" + data + "\" received");
 			mCallbacks.onDataReceived(gatt.getDevice(), data);
 		}
+
+			@Override
+		public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+			super.onMtuChanged(gatt, mtu, status);
+
+			if (status == BluetoothGatt.GATT_SUCCESS) {
+				supportedMTU = mtu;
+			}
+		}
 	};
 
 	@Override
 	protected boolean shouldAutoConnect() {
 		// We want the connection to be kept
 		return true;
+	}
+
+	private void requestMtu() {
+		//gatt is a BluetoothGatt instance and MAX_MTU is 512
+		mGatt.requestMtu(512 + 3);
+	}
+
+	/**
+	 * Sends the given text to RX characteristic.
+	 * @param bytes the text to be sent
+	 */
+	public void send(final byte [] bytes) {
+		// Are we connected?
+		if (mRXCharacteristic == null)
+			return;
+
+		// An outgoing buffer may not be null if there is already another packet being sent. We do nothing in this case.
+		if (bytes.length != 0 && mOutgoingBuffer == null) {
+			mBufferOffset = 0;
+
+			// Depending on whether the characteristic has the WRITE REQUEST property or not, we will either send it as it is (hoping the long write is implemented),
+			// or divide it into up to 20 bytes chunks and send them one by one.
+			final boolean writeRequest = (mRXCharacteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0;
+
+			if (!writeRequest) { // no WRITE REQUEST property
+				final int length = Math.min(bytes.length, supportedMTU);
+				mBufferOffset += length;
+				enqueue(Request.newWriteRequest(mRXCharacteristic, bytes, 0, length));
+			} else { // there is WRITE REQUEST property, let's try Long Write
+				mBufferOffset = bytes.length;
+				enqueue(Request.newWriteRequest(mRXCharacteristic, bytes, 0, bytes.length));
+			}
+		}
 	}
 
 	/**
