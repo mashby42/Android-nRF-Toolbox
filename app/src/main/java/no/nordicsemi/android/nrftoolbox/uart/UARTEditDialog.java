@@ -45,7 +45,6 @@ import no.nordicsemi.android.nrftoolbox.uart.domain.Command;
 public class UARTEditDialog extends DialogFragment implements View.OnClickListener, GridView.OnItemClickListener {
 	private final static String ARG_INDEX = "index";
 	private final static String ARG_COMMAND = "command";
-	private final static String ARG_DEVTYPE = "device";
 	private final static String ARG_EOL = "eol";
 	private final static String ARG_ICON_INDEX = "iconIndex";
 	private int mActiveIcon;
@@ -53,7 +52,6 @@ public class UARTEditDialog extends DialogFragment implements View.OnClickListen
 	private EditText mField;
 	private CheckBox mActiveCheckBox;
 	private RadioGroup mEOLGroup;
-	private RadioGroup mDevTypeGroup;
 	private IconAdapter mIconAdapter;
 
 	public static UARTEditDialog getInstance(final int index, final Command command) {
@@ -62,7 +60,6 @@ public class UARTEditDialog extends DialogFragment implements View.OnClickListen
 		final Bundle args = new Bundle();
 		args.putInt(ARG_INDEX, index);
 		args.putString(ARG_COMMAND, command.getCommand());
-		args.putInt(ARG_DEVTYPE, command.getDeviceType().index);
 		args.putInt(ARG_EOL, command.getEol().index);
 		args.putInt(ARG_ICON_INDEX, command.getIconIndex());
 		fragment.setArguments(args);
@@ -79,7 +76,6 @@ public class UARTEditDialog extends DialogFragment implements View.OnClickListen
 		final Bundle args = getArguments();
 		final int index = args.getInt(ARG_INDEX);
 		final String command = args.getString(ARG_COMMAND);
-		final int dev = args.getInt(ARG_DEVTYPE);
 		final int eol = args.getInt(ARG_EOL);
 		final int iconIndex = args.getInt(ARG_ICON_INDEX);
 		final boolean active = true; // change to active by default
@@ -96,20 +92,6 @@ public class UARTEditDialog extends DialogFragment implements View.OnClickListen
 			if (mIconAdapter != null)
 				mIconAdapter.notifyDataSetChanged();
 		});
-
-		final RadioGroup devGroup = mDevTypeGroup = view.findViewById(R.id.uart_deviceType);
-		switch (Command.DeviceType.values()[dev]) {
-			case modem:
-				devGroup.check(R.id.uart_dev_modem);
-				break;
-			case host:
-				devGroup.check(R.id.uart_dev_host);
-				break;
-			case reader:
-			default:
-				devGroup.check(R.id.uart_dev_reader);
-				break;
-		}
 
 		final RadioGroup eolGroup = mEOLGroup = view.findViewById(R.id.uart_eol);
 		switch (Command.Eol.values()[eol]) {
@@ -144,21 +126,7 @@ public class UARTEditDialog extends DialogFragment implements View.OnClickListen
 	public void onClick(final View v) {
 		final boolean active = mActiveCheckBox.isChecked();
 		final String command = mField.getText().toString();
-		int dev;
 		int eol;
-
-		switch (mDevTypeGroup.getCheckedRadioButtonId()) {
-			case R.id.uart_dev_modem:
-				dev = Command.DeviceType.modem.index;
-				break;
-			case R.id.uart_dev_host:
-				dev = Command.DeviceType.host.index;
-				break;
-			case R.id.uart_dev_reader:
-			default:
-				dev = Command.DeviceType.reader.index;
-				break;
-		}
 
 		switch (mEOLGroup.getCheckedRadioButtonId()) {
 			case R.id.uart_eol_cr_lf:
@@ -179,7 +147,7 @@ public class UARTEditDialog extends DialogFragment implements View.OnClickListen
 
 		dismiss();
 		final UARTActivity parent = (UARTActivity) getActivity();
-		parent.onCommandChanged(index, command, active, eol, dev, mActiveIcon);
+		parent.onCommandChanged(index, command, active, eol, mActiveIcon);
 	}
 
 	@Override

@@ -79,9 +79,6 @@ public class UARTService extends BleProfileService implements UARTManagerCallbac
 	private final LocalBinder mBinder = new UARTBinder();
 
 	public class UARTBinder extends LocalBinder implements UARTInterface {
-		public void send(final byte [] bytes) {
-			mManager.send(bytes);
-		}
 		@Override
 		public void send(final String text) {
 			mManager.send(text);

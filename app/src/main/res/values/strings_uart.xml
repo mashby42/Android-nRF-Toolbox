@@ -68,12 +68,7 @@
 	<string name="uart_eol_lf">LF</string>
 	<string name="uart_eol_cr">CR</string>
 
-    <string name="uart_dev">Dev:</string>
-    <string name="uart_dev_reader">Reader</string>
-    <string name="uart_dev_host">Host</string>
-    <string name="uart_dev_modem">Modem</string>
-
-    <string name="uart_about_text">UART profile (Universal Asynchronous Receiver and Transmitter) is a Bluetooth Smart implementation of the UART standard. It allows for bidirectional
+    <string name="uart_about_text">UART profile (Universal Asynchronous Receiver and Transmitter) is a Bluetooth Smart implementation of the UART standard. It allows for bidirectional 
         text based communication that is often used for debugging and control. 
         \nEach configuration contains 9 programmable buttons that may send commands to the UART TX characteristic. Click on the EDIT menu item to edit buttons actions.
         \nScroll the main pane right, or rotate your device to the landscape orientation to see the oncoming and incoming data as well as other connection events.\n\nIf nRF Logger application
