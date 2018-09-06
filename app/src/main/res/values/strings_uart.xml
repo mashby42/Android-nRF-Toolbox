@@ -22,7 +22,7 @@
   -->
 <resources>
     <string name="uart_feature_title">UART</string>
-    
+
     <string name="uart_action_configure">EDIT</string>
     <string name="uart_action_end">DONE</string>
     <string name="uart_action_send_hint">Write command</string>
@@ -35,10 +35,10 @@
     <string name="uart_action_remove">Delete</string>
 	<string name="uart_action_details">Details</string>
 	<string name="uart_action_undo">Undo</string>
-    
+
     <string name="uart_feature_title_long">UART</string>
     <dimen name="uart_feature_title_long_margin">-24dp</dimen>
-    
+
     <string name="uart_default_name">DEFAULT UART</string>
     <string name="uart_empty">No data to display.</string>
 
@@ -54,13 +54,13 @@
 	<string name="uart_configuration_load_error">Import failed.</string>
 	<string name="uart_configuration_export_succeeded_ticker">File saved</string>
 	<string name="uart_configuration_export_succeeded">Configuration saved in /sdcard/Nordic Semiconductor</string>
-    
+
     <string name="uart_edit_title">Configure button</string>
     <string name="uart_edit_command_hint">Enter command</string>
     <string name="uart_edit_active">Active</string>
     <string name="uart_edit_select">Select icon:</string>
-    
-    <string name="uart_notification_action_disconnect">Disconnect</string> 
+
+    <string name="uart_notification_action_disconnect">Disconnect</string>
     <string name="uart_notification_connected_message">%s is connected.</string>
 
 	<string name="uart_eol">EOL:</string>
@@ -73,8 +73,13 @@
     <string name="uart_dev_host">Host</string>
     <string name="uart_dev_modem">Modem</string>
 
+    <string name="uart_proto">Proto:</string>
+    <string name="uart_proto_ack">Ack</string>
+    <string name="uart_proto_data">Data</string>
+    <string name="uart_proto_cmd">Cmd</string>
+
     <string name="uart_about_text">UART profile (Universal Asynchronous Receiver and Transmitter) is a Bluetooth Smart implementation of the UART standard. It allows for bidirectional
-        text based communication that is often used for debugging and control. 
+        text based communication that is often used for debugging and control.
         \nEach configuration contains 9 programmable buttons that may send commands to the UART TX characteristic. Click on the EDIT menu item to edit buttons actions.
         \nScroll the main pane right, or rotate your device to the landscape orientation to see the oncoming and incoming data as well as other connection events.\n\nIf nRF Logger application
         is installed, the log is stored in the application\'s database.</string>

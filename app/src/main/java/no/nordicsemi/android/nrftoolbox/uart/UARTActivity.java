@@ -546,11 +546,12 @@ public class UARTActivity extends BleProfileServiceReadyActivity<UARTService.UAR
 		}
 	}
 
-	public void onCommandChanged(final int index, final String message, final boolean active, final int eol, final int dev, final int iconIndex) {
+	public void onCommandChanged(final int index, final String message, final boolean active, final int eol, final int dev, final int proto, final int iconIndex) {
 		final Command command = mConfiguration.getCommands()[index];
 
 		command.setCommand(message);
 		command.setActive(active);
+		command.setProtocol(proto);
 		command.setDeviceType(dev);
 		command.setEol(eol);
 		command.setIconIndex(iconIndex);

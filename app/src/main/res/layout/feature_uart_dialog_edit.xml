@@ -118,6 +118,42 @@
 
 	</RadioGroup>
 
+    <RadioGroup
+        android:id="@+id/uart_protocol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/uart_proto"/>
+
+        <RadioButton
+            android:id="@+id/uart_proto_ack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="80dp"
+            android:checked="true"
+            android:text="@string/uart_proto_ack"/>
+
+        <RadioButton
+            android:id="@+id/uart_proto_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="80dp"
+            android:text="@string/uart_proto_data"/>
+
+        <RadioButton
+            android:id="@+id/uart_proto_cmd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="80dp"
+            android:text="@string/uart_proto_cmd"/>
+
+    </RadioGroup>
+
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

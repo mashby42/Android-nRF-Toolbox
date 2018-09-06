@@ -59,6 +59,18 @@ public class Command {
 
 	public int devType;
 
+	public enum Protocol
+	{
+		ack(0),
+		data(1),
+		cmd(2),
+		image(3);
+
+		public final int index;
+
+		Protocol(final int index) { this.index = index; }
+	}
+
 	public enum DeviceType
 	{
 		reader(0),
@@ -90,6 +102,9 @@ public class Command {
 	private boolean active = false;
 
 	@Attribute(required = false)
+	private Protocol protocol = Protocol.cmd;
+
+	@Attribute(required = false)
 	private DeviceType deviceType = DeviceType.reader;
 
 	@Attribute(required = false)
@@ -113,6 +128,12 @@ public class Command {
 	public void setActive(final boolean active) {
 		this.active = active;
 	}
+
+	/**
+	 * Sets the protocol.
+	 * @param proto protocol
+	 */
+	public void setProtocol(final int proto) { this.protocol = Protocol.values()[proto]; }
 
 	/**
 	 * Sets the device type.
@@ -153,6 +174,15 @@ public class Command {
 	}
 
 	/**
+	 * Returns the protocol.
+	 * @return protocol
+	 */
+	public Protocol getProtocol()
+	{
+		return protocol;
+	}
+
+	/**
 	 * Returns the device type.
 	 * @return device type
 	 */
@@ -165,7 +195,10 @@ public class Command {
 	 * Returns the new line type.
 	 * @return end of line terminator
 	 */
-	public Eol getEol() { return eol; }
+	public Eol getEol()
+	{
+		return eol;
+	}
 
 	/**
 	 * Returns the icon index.

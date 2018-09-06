@@ -96,10 +96,19 @@ public class UARTControlFragment extends Fragment implements GridView.OnItemClic
 			final UARTEditDialog dialog = UARTEditDialog.getInstance(position, command);
 			dialog.show(getChildFragmentManager(), null);
 		} else {
-			final Command command = (Command)mAdapter.getItem(position);
-			final Command.Eol eol = command.getEol();
+			final Command command 		 = (Command)mAdapter.getItem(position);
+			final Command.Protocol eproto = command.getProtocol();
+			final Command.Eol eol 		 = command.getEol();
 			final Command.DeviceType dev = command.getDeviceType();
 			int devInt = 1 << 30;
+			byte protoByte = 0;
+			switch( eproto )
+			{
+				case ack:  protoByte = 0; break;
+				case data: protoByte = 1; break;
+				case cmd:  protoByte = 2; break;
+				//default: devInt = 0;
+			}
 			switch( dev )
 			{
 				case reader: devInt = 0 << 30; break;
@@ -114,11 +123,24 @@ public class UARTControlFragment extends Fragment implements GridView.OnItemClic
 			if (text.length() > (maxLen - 0x11))
 			    text = "Too Long" + text.substring(0,(maxLen-8 - 0x11));
 			final byte [] header  = {(byte)1, (byte)'C', (byte)'T', (byte)'1'};
-            final byte [] length  = shortToBytes((short)(4 + 4 + 1 + text.length() + 2));
+			int   xLen = text.length();
+//			xLen = xLen + 11;
             final byte [] dstAddr = intToBytes( devInt | 0x0FFFFFFF );
             final byte [] srcAddr = intToBytes(0x40000000);
             final byte [] proto   = {0x01};
-			final byte [] payload = stringToASCIIBytes(text);
+            final byte [] flags     = {0x00};
+            final byte [] protocol  = {protoByte};
+            final byte [] ack       = {0x00, 0x00};
+            final byte [] xAction   = {0x00, 0x01};
+//            final byte [] fragInfo  = {(byte)0x80, 0x00};
+            final byte [] cmdID    = {(byte)0x80, 0x04};
+//            xLen = xLen + 8;
+            final byte [] payload = combineByteArrays(flags, protocol, ack, xAction, cmdID, stringToASCIIBytes(text));
+//            final byte [] payload = combineByteArrays(flags, protocol, ack, xAction, fragInfo, protocol, stringToASCIIBytes(text));
+//            final byte [] payload = stringToASCIIBytes(text);
+            final int len = payload.length + 11;
+            final short xxLen = (short)len;
+            final byte [] length  = shortToBytes(xxLen);
 			final byte [] crc     = crc16(combineByteArrays(                dstAddr, srcAddr, proto, payload     ));
 			final byte [] packet  =       combineByteArrays(header, length, dstAddr, srcAddr, proto, payload, crc);
 			switch (eol) {
