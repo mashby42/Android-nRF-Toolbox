@@ -199,6 +199,18 @@
 			android:name="no.nordicsemi.android.nrftoolbox.csc.settings.SettingsActivity"
 			android:label="@string/csc_settings_title" />
 		<activity
+			android:name="no.nordicsemi.android.nrftoolbox.code.CODEActivity"
+			android:icon="@drawable/ic_code_feature"
+			android:label="@string/code_feature_title"
+			android:windowSoftInputMode="adjustResize"
+			android:launchMode="singleTask" >
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
 			android:name="no.nordicsemi.android.nrftoolbox.uart.UARTActivity"
 			android:icon="@drawable/ic_uart_feature"
 			android:label="@string/uart_feature_title"
@@ -260,6 +272,9 @@
 			android:name="no.nordicsemi.android.nrftoolbox.hts.HTSService"
 			android:label="@string/hts_feature_title" />
 		<service
+			android:name="no.nordicsemi.android.nrftoolbox.code.CODEService"
+			android:label="@string/code_feature_title" />
+		<service
 			android:name="no.nordicsemi.android.nrftoolbox.uart.UARTService"
 			android:label="@string/uart_feature_title" />
 		<service android:name=".wearable.MainWearableListenerService">
@@ -269,6 +284,10 @@
 				<data android:scheme="wear" android:host="*" android:pathPrefix="/nrftoolbox" />
 			</intent-filter>
 		</service>
+
+		<provider android:name="no.nordicsemi.android.nrftoolbox.code.CODELocalLogContentProvider"
+			android:authorities="no.nordicsemi.android.nrftoolbox.code.log"
+			android:exported="true"/>
 
 		<provider android:name="no.nordicsemi.android.nrftoolbox.uart.UARTLocalLogContentProvider"
 			android:authorities="no.nordicsemi.android.nrftoolbox.uart.log"

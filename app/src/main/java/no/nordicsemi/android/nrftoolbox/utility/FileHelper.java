@@ -48,6 +48,7 @@ public class FileHelper {
 
 	public static final String NORDIC_FOLDER = "Nordic Semiconductor";
 	public static final String UART_FOLDER = "UART Configurations";
+	public static final String CODE_FOLDER = "CODE Configurations";
 	public static final String BOARD_FOLDER = "Board";
 	public static final String BOARD_NRF6310_FOLDER = "nrf6310";
 	public static final String BOARD_PCA10028_FOLDER = "pca10028";

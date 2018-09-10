@@ -56,5 +56,22 @@
 			android:targetClass="no.nordicsemi.android.nrftoolbox.uart.UARTActivity" />
 		<categories android:name="android.shortcut.conversation" />
 	</shortcut>
+    <shortcut
+        android:shortcutId="shortcut_code"
+        android:enabled="true"
+        android:icon="@mipmap/ic_shortcut_code"
+        android:shortcutShortLabel="@string/shortcut_code_short"
+        android:shortcutLongLabel="@string/shortcut_code_long"
+        android:shortcutDisabledMessage="@string/shortcut_code_short">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="no.nordicsemi.android.nrftoolbox"
+            android:targetClass="no.nordicsemi.android.nrftoolbox.FeaturesActivity" />
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="no.nordicsemi.android.nrftoolbox"
+            android:targetClass="no.nordicsemi.android.nrftoolbox.code.CODEActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
 	<!-- Specify more shortcuts here. -->
 </shortcuts>

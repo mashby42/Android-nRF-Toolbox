@@ -64,4 +64,38 @@ public final class Constants {
 			}
 		}
 	}
+
+	/**
+	 * Constants for the CODE profile.
+	 */
+	public static final class CODE {
+		/** The profile name. */
+		public static final String PROFILE = "code";
+
+		/** Base path for CODE messages between the handheld and
+		 *  wearable. */
+		private static final String PROFILE_PATH =  BASE_PATH + "/code";
+
+		/** An CODE device is connected. */
+		public static final String DEVICE_CONNECTED = PROFILE_PATH + "/connected";
+		/** An CODE device is disconnected. */
+		public static final String DEVICE_DISCONNECTED = PROFILE_PATH + "/disconnected";
+		/** An CODE device is disconnected due to a link loss. */
+		public static final String DEVICE_LINKLOSS = PROFILE_PATH + "/link_loss";
+		/** Path used for syncing CODE configurations. */
+		public static final String CONFIGURATIONS = PROFILE_PATH + "/configurations";
+		/** An action with a command was clicked. */
+		public static final String COMMAND = PROFILE_PATH + "/command";
+
+		public static final class Configuration {
+			public static final String NAME = "name";
+			public static final String COMMANDS = "commands";
+
+			public static final class Command {
+				public static final String ICON_ID = "icon_id";
+				public static final String MESSAGE = "message";
+				public static final String EOL = "eol";
+			}
+		}
+	}
 }
